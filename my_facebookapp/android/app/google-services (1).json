@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "192979528438",
+    "project_id": "myfacebook-7940e",
+    "storage_bucket": "myfacebook-7940e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192979528438:android:971273604e0b5dbc2d9ad7",
+        "android_client_info": {
+          "package_name": "com.example.my_facebookapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjLvP81h-6B8x-ajmisXTPdxJfPF8-4_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
