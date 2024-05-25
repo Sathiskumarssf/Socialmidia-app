@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Login.dart';
 import 'package:flutter/widgets.dart';
-
- 
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -13,23 +12,33 @@ class _LoginScreenState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _repasswordController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
 
-  void _login() {
+  Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       // Perform login action
       final email = _emailController.text;
       final password = _passwordController.text;
 
-      // Placeholder for login logic
-      print('Email: $email');
-      print('Password: $password');
+      try {
+        final newUser = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+        if (newUser != null) {
+          print("suceess");
+        }
+      } catch (e) {
+        print(e);
+      }
+    
+      Navigator.pushReplacementNamed(context, '/');
 
-      // Navigate to MyHomePage after login
-      Navigator.pushReplacementNamed(context, '/home');
-
-      // Display a snackbar
+       
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Logging in...')),
+        SnackBar(content: Text('Register Sucuess  ',
+           style: TextStyle(color: Colors.green),
+        )),
+        
       );
     }
   }
@@ -37,11 +46,11 @@ class _LoginScreenState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         title: Text('Register'),
         backgroundColor: Colors.black38,
-        centerTitle: true, 
-       ),
+        centerTitle: true,
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -59,7 +68,6 @@ class _LoginScreenState extends State<Register> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     TextFormField(
-                       
                       controller: _emailController,
                       style: TextStyle(fontSize: 18.0),
                       decoration: InputDecoration(
@@ -69,7 +77,8 @@ class _LoginScreenState extends State<Register> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 16.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 16.0),
                       ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
@@ -87,7 +96,6 @@ class _LoginScreenState extends State<Register> {
                     TextFormField(
                       controller: _passwordController,
                       style: TextStyle(fontSize: 18.0),
-                      
                       decoration: InputDecoration(
                         labelText: 'Password',
                         filled: true,
@@ -95,9 +103,30 @@ class _LoginScreenState extends State<Register> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
-
-                        contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 16.0),
-                        
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 16.0),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: _repasswordController,
+                      style: TextStyle(fontSize: 18.0),
+                      decoration: InputDecoration(
+                        labelText: 'Re enter the Password',
+                        filled: true,
+                        fillColor: Colors.white70,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 16.0),
                       ),
                       obscureText: true,
                       validator: (value) {
@@ -111,45 +140,42 @@ class _LoginScreenState extends State<Register> {
                     ElevatedButton(
                       onPressed: _login,
                       style: ButtonStyle(
-                         
-                        backgroundColor:  MaterialStateProperty.all<Color>(Color.fromARGB(255, 163, 236, 247)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 163, 236, 247)),
                         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                              EdgeInsets.all(16.0), // Set padding for all states
-                            ),
-                      ),
-                      
-                      child: Text('Register'),
-                    ),
-
-                     Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("You have an account?",
-                      style: TextStyle(
-                        color: Colors.amber[50]
-                      ),),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => Login()),
-                                (route) => false,
-                          );
-                        },
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          EdgeInsets.all(16.0), // Set padding for all states
                         ),
                       ),
-                    ],
-              ),
-
+                      child: Text('Register'),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "You have an account?",
+                          style: TextStyle(color: Colors.amber[50]),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                              (route) => false,
+                            );
+                          },
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

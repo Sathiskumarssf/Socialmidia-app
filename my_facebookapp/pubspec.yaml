@@ -40,9 +40,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  device_preview: ^1.0.0
   firebase_core: ^2.31.0
-  cloud_firestore: ^4.3.2
+  firebase_storage: ^11.0.1
+  cloud_firestore: ^4.5.2
+  image_picker: ^0.8.4+4
+  firebase_auth: ^4.5.2
+  device_preview: ^1.0.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -58,6 +61,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/image.png
+    - assets/image1.png
 
   uses-material-design: true
 
