@@ -6,6 +6,7 @@ import 'Friends.dart';
 import 'Upload.dart';
 import 'Vidios.dart';
 import 'Notification.dart';
+import 'Home.dart';
  
 
 void main() async {
@@ -57,61 +58,7 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
-class HomeTab extends StatelessWidget {
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final mobileController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          TextFormField(
-            controller: nameController,
-            decoration: const InputDecoration(hintText: 'Name'),
-          ),
-          TextFormField(
-            controller: emailController,
-            decoration: const InputDecoration(hintText: 'Email'),
-          ),
-          TextFormField(
-            controller: mobileController,
-            decoration: const InputDecoration(hintText: 'Mobile'),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () async {
-              try {
-                CollectionReference collRef =
-                    FirebaseFirestore.instance.collection('client');
-
-                await collRef.add({
-                  'name': nameController.text,
-                  'email': emailController.text,
-                  'mobile': mobileController.text,
-                });
-
-                // Show a confirmation message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Client added successfully')),
-                );
-              } catch (e) {
-                // Handle any errors
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Failed to add client: $e')),
-                );
-              }
-            },
-            child: Text("Add Client"),
-          ),
-        ],
-      ),
-    );
-  }
-}
+ 
 
  
  
